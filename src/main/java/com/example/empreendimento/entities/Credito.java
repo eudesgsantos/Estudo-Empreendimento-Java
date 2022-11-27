@@ -1,6 +1,7 @@
 package com.example.empreendimento.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 
@@ -16,6 +17,13 @@ public class Credito {
     @Column(length = 50, nullable = false)
     private Date dataCredito;
 
+    public static ArrayList<String> getFields(){
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("id");
+        result.add("cpf");
+        result.add("dataCredito");
+        return result;
+    }
     public static boolean isCPF(String CPF) {
         // considera-se erro CPF's formados por uma sequencia de numeros iguais
         if (CPF.equals("00000000000") ||

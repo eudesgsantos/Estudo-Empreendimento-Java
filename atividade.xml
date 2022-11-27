@@ -1,0 +1,16 @@
+<XML>
+	<Atividade>
+		<id>434</id>
+		<empreendimentoId>44</empreendimentoId>
+		<valorAtividade>200</valorAtividade>
+		<prazo>2</prazo>
+		<creditoId>38</creditoId>
+	</Atividade>
+	<Atividade>
+		<id>343</id>
+		<empreendimentoId>45</empreendimentoId>
+		<valorAtividade>200</valorAtividade>
+		<prazo>2</prazo>
+		<creditoId>39</creditoId>
+	</Atividade>
+</XML>

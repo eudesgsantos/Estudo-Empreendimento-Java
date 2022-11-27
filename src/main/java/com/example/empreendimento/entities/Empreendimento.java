@@ -1,6 +1,7 @@
 package com.example.empreendimento.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 public class Empreendimento {
@@ -16,6 +17,16 @@ public class Empreendimento {
     @Column(nullable = false)
 
     private float aliquota;
+
+    public static ArrayList<String> getFields(){
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("id");
+        result.add("codigo");
+        result.add("descricao");
+        result.add("taxa");
+        result.add("aliquota");
+        return result;
+    }
 
     public void setId(long id) {
         this.id = id;

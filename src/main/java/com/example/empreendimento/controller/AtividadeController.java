@@ -11,6 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +80,55 @@ public class AtividadeController {
         n.setMontante(n.getValorAtividade() *p.get().getAliquota() + n.getValorAtividade() * (1 + p.get().getTaxa()) * n.getPrazo());
         atividadeRepository.save(n);
         return "Saved";
+    }
+
+    @PutMapping(path = "/import")
+    public @ResponseBody String importXML(@RequestParam String path) throws ParseException {
+
+        atividadeRepository.deleteAll();
+
+        String destination = "/Users/esantos/Developer/CESAR/empreendimento-java/atividade.xml";
+
+        try {
+            downloadUsingStream(path, destination);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ReadXML reader = new ReadXML();
+
+        ArrayList<String> xmlFields = reader.run(destination, Atividade.getFields(),"Atividade");
+
+        for (int i = 0; i < Integer.parseInt(xmlFields.get(0)); i++) {
+            Atividade n = new Atividade();
+            n.setId(Long.parseLong(xmlFields.get(1+(i*5))));
+            //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            Optional<Empreendimento> p = empreendimentoRepository.findById(Long.parseLong(xmlFields.get(2+(i*5))));
+            Optional<Credito> c = creditoRepository.findById(Long.parseLong(xmlFields.get(5+(i*5))));
+                if(c.isPresent()){
+                    n.setCreditoId(Long.parseLong(xmlFields.get(5+(i*5))));
+                }
+            n.setEmpreendimentoId(Long.parseLong(xmlFields.get(2+(i*5))));
+            n.setValorAtividade(Float.parseFloat(xmlFields.get(3+(i*5))));
+            n.setPrazo(Integer.parseInt(xmlFields.get(4+(i*5))));
+            n.setValorSeguro(n.getValorAtividade() * p.get().getAliquota());
+            n.setMontante((n.getValorAtividade() *p.get().getAliquota()) + (n.getValorAtividade() * (1 + p.get().getTaxa()) * n.getPrazo()));
+            atividadeRepository.save(n);
+        }
+        return "Imported";
+    }
+
+    public static void downloadUsingStream(String urlStr, String file) throws IOException {
+        URL url = new URL(urlStr);
+        BufferedInputStream bis = new BufferedInputStream(url.openStream());
+        FileOutputStream fis = new FileOutputStream(file);
+        byte[] buffer = new byte[1024];
+        int count=0;
+        while((count = bis.read(buffer,0,1024)) != -1)
+        {
+            fis.write(buffer, 0, count);
+        }
+        fis.close();
+        bis.close();
     }
 
     @GetMapping(path="/all")

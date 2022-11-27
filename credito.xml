@@ -1,0 +1,12 @@
+<XML>
+	<Credito>
+		<id>545</id>
+		<cpf>01395500460</cpf>
+		<dataCredito>04/12/2000</dataCredito>
+	</Credito>
+	<Credito>
+		<id>454</id>
+		<cpf>01395500460</cpf>
+		<dataCredito>04/12/2000</dataCredito>
+	</Credito>
+</XML>

@@ -1,0 +1,16 @@
+<XML>
+    <Empreendimento>
+    <id>524</id>
+    <codigo>01395500460</codigo>
+    <descricao>sem taxa</descricao>
+    <taxa>0.01</taxa>
+    <aliquota>0.02</aliquota>
+    </Empreendimento>
+    <Empreendimento>
+    <id>437</id>
+    <codigo>123321</codigo>
+    <descricao>sem taxa</descricao>
+    <taxa>0.01</taxa>
+    <aliquota>0.02</aliquota>
+    </Empreendimento>
+</XML>	
