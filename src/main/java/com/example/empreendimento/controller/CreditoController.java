@@ -98,6 +98,19 @@ public class CreditoController {
         bis.close();
     }
 
+    @GetMapping(path = "/export")
+    public @ResponseBody String exportCSV(@RequestParam String path) throws IOException {
+        String result = "";
+        for (Credito v : creditoRepository.findAll()) {
+            result += String.format("\"%d\",", v.getId());
+            result += String.format("\"%s\",", v.getCpf());
+            result += String.format("\"%s\"\n", v.getDataCredito());
+        }
+        String url = WriteCSV.run("", result);
+        return  url;
+    }
+
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Credito> getAllCredito() {
         return creditoRepository.findAll();

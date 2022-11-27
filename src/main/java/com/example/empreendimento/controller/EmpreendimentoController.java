@@ -112,6 +112,20 @@ public class EmpreendimentoController {
         bis.close();
     }
 
+    @GetMapping(path = "/export")
+    public @ResponseBody String exportCSV(@RequestParam String path) throws IOException {
+        String result = "";
+        for (Empreendimento v : empreendimentoRepository.findAll()) {
+            result += String.format("\"%d\",", v.getId());
+            result += String.format("\"%s\",", v.getCodigo());
+            result += String.format("\"%s\",", v.getDescricao());
+            result += String.format("\"%s\",", v.getTaxa());
+            result += String.format("\"%s\"\n", v.getAliquota());
+        }
+        String url = WriteCSV.run("", result);
+        return  url;
+    }
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Empreendimento> getAllEmpreendimento() {
         return empreendimentoRepository.findAll();

@@ -131,6 +131,23 @@ public class AtividadeController {
         bis.close();
     }
 
+    @GetMapping(path = "/export")
+    public @ResponseBody String exportCSV(@RequestParam String path) throws IOException {
+        String result = "";
+        for (Atividade v : atividadeRepository.findAll()) {
+            result += String.format("\"%d\",", v.getId());
+            result += String.format("\"%s\",", v.getCreditoId());
+            result += String.format("\"%d\",", v.getEmpreendimentoId());
+            result += String.format("\"%s\",", v.getMontante());
+            result += String.format("\"%d\",", v.getPrazo());
+            result += String.format("\"%s\",", v.getValorAtividade());
+            result += String.format("\"%s\"\n", v.getValorSeguro());
+        }
+        String url = WriteCSV.run("", result);
+        return  url;
+    }
+
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Atividade> getAllAtividade() {
         return atividadeRepository.findAll();
